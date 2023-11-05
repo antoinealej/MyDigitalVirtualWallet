@@ -1,0 +1,28 @@
+useDotenv: true
+
+service: vbc-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: ap-southeast-1
+  runtime: nodejs18.x
+  tracing:
+    apiGateway: true
+    lambda: true
+  memorySize: 256
+  environment:
+    JWT_SECRET: ${JWT_SECRET}
+    JWT_EXPIRES: ${JWT_EXPIRES}
+    POSTGRES_HOST: ${POSTGRES_HOST}
+    POSTGRES_PORT: ${POSTGRES_PORT}
+    POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+
+functions:
+  api:
+    handler: dist/lambda.handler
+    timeout: 900
+    events:
+      - httpApi: '*'
